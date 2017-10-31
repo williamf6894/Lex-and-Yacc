@@ -2,21 +2,27 @@
 letter      [A-Z]
 digit       [0-9]
 alpha       [A-Z0-9\-]
-wspace      [ \t\n]
+
 %%
+
 [ \t\n]* {}
-BEGINNING printf("Beginning ");
-"."       printf(" endline\n");
-XXXX      printf("Var with 4 ");
-XXX       printf("Var with 3 ");
-XX        printf("Var with 2 ");
-BODY      printf("Body keyword ");
-PRINT     printf("Print keyword ");
-INPUT     printf("Input keyword ");
-END       printf("End of file ");
-MOVE      printf("Move ");
-ADD       printf("Adding two numbers ");
+BEGINNING                printf("Beginning ");
+"."                      printf("EOL\n");
+[xX]+                    printf("Declaration with a size of %d for ", yyleng);
+BODY                     printf("Body ");
+PRINT                    printf("PrintKeyword ");
+INPUT                    printf("InputKeyword ");
+END                      printf("End of file ");
+MOVE                     printf("Move ");
+ADD                      printf("Adding two numbers ");
+[\t ]                    printf(" ");
+;                        printf("[Separator] ");
+[\"][^"]*[\"]            printf("String: %s ", yytext);
+[a-zA-Z][a-zA-Z0-9\-]*   printf("Variable: %s ", yytext);
+[0-9]+                   printf("Digit "); 
+
 %%
+
 int yywrap(void)
 {
     return 1;
