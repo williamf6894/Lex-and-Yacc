@@ -1,8 +1,8 @@
-
 letter      [A-Z]
 digit       [0-9]
 alpha       [A-Z0-9\-]
 
+%optioncaseless
 %%
 
 [ \t\n]* {}
