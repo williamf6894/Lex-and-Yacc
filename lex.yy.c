@@ -386,11 +386,11 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[52] =
     {   0,
-        1,    1,   17,   16,    1,    1,   16,    3,   15,   12,
-       14,   14,   14,   14,   14,   14,   14,    4,    1,    0,
-       13,   15,   14,   14,   14,   14,   14,   14,   14,   14,
-        4,   10,   14,   14,    8,   14,   14,   14,   14,    5,
-       14,    9,   14,   14,    7,    6,   14,   14,   14,    2,
+        1,    1,   17,   15,    1,    1,   15,    3,   14,   11,
+       13,   13,   13,   13,   13,   13,   13,    4,    1,    0,
+       12,   14,   13,   13,   13,   13,   13,   13,   13,   13,
+        4,   10,   13,   13,    8,   13,   13,   13,   13,    5,
+       13,    9,   13,   13,    7,    6,   13,   13,   13,    2,
         0
     } ;
 
@@ -795,7 +795,7 @@ printf("EOL\n");
 case 4:
 YY_RULE_SETUP
 #line 11 "text2.l"
-printf("Declaration with a size of %d for ", yyleng);
+printf("Declaration with a size of %d for ", (int) yyleng);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
@@ -830,32 +830,32 @@ printf("Adding two numbers ");
 case 11:
 YY_RULE_SETUP
 #line 18 "text2.l"
-printf(" ");
-	YY_BREAK
-case 12:
-YY_RULE_SETUP
-#line 19 "text2.l"
 printf("[Separator] ");
 	YY_BREAK
+case 12:
+/* rule 12 can match eol */
+YY_RULE_SETUP
+#line 19 "text2.l"
+printf("String: %s ", yytext);
+	YY_BREAK
 case 13:
-/* rule 13 can match eol */
 YY_RULE_SETUP
 #line 20 "text2.l"
-printf("String: %s ", yytext);
+printf("Variable: %s ", yytext);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 21 "text2.l"
-printf("Variable: %s ", yytext);
+printf("Digit "); 
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 22 "text2.l"
-printf("Digit "); 
+printf(" !Not Valid! ");
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 24 "text2.l"
+#line 23 "text2.l"
 ECHO;
 	YY_BREAK
 #line 862 "lex.yy.c"
@@ -1859,7 +1859,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 24 "text2.l"
+#line 23 "text2.l"
 
 
 
