@@ -13,47 +13,48 @@
 	return TERMINATOR;
 }
 BEGINNING {
-		return BEGINNING;
+	return BEGINNING;
 }
-BODY{
-		return BODY;
+BODY {
+	return BODY;
 }
 END {
-		return END;
+	return END;
 }
-ADD{
-		return ADD;
+ADD {
+	return ADD;
 }
-MOVE{
-		return MOVE;
+MOVE {
+	return MOVE;
 }
 INPUT {
-		return INPUT;
+	return INPUT;
 }
-PRINT{
-		return PRINT;
+PRINT {
+	return PRINT;
 }
-TO{
-		return TO;
+TO {
+	return TO;
 }
-\;{
-		return DELIMITER;
+\; {
+	return DELIMITER;
 }
-[ \t\n] 	;
+[ \t\n] {
+
+}
 
 . {
 	  printf("Unexpected Character\n");
 }
 
-[Xx]+ 	{
-		yylval.num = yyleng;
-
-		return DECSIZE;
+[Xx]+ {
+	yylval.inum = yyleng;
+	return DECSIZE;
 }
 
 [A-Z][A-Z0-9\-]* {
-		yylval.str = strdup(yytext);
-		return VARIABLE;
+	yylval.str = strdup(yytext);
+	return VARIABLE;
 }
 
 \"[a-zA-Z0-9]*\" {
@@ -62,8 +63,8 @@ TO{
 }
 
 [0-9]+ {
- yylval.num = atoi(strdup(yytext));
- return DIGIT;
+	yylval.num = atoi(strdup(yytext));
+	return DIGIT;
 }
 
 
