@@ -1,0 +1,508 @@
+Grammar
+
+    0 $accept: program $end
+
+    1 program: start main ending
+
+    2 start: BEGINNING TERMINATOR declarations
+
+    3 main: BODY TERMINATOR instructions
+
+    4 ending: END TERMINATOR
+
+    5 declarations: declarations declaration TERMINATOR
+    6             | %empty
+
+    7 declaration: DECSIZE VARIABLE
+
+    8 instructions: instructions instruction TERMINATOR
+    9             | %empty
+
+   10 instruction: move_instruct
+   11            | add_instruct
+   12            | print_instruct
+   13            | input_instruct
+
+   14 move_instruct: MOVE NUM TO VARIABLE
+   15              | MOVE VARIABLE TO VARIABLE
+
+   16 add_instruct: ADD NUM TO VARIABLE
+   17             | ADD VARIABLE TO VARIABLE
+
+   18 print_instruct: PRINT printable
+
+   19 printable: VARIABLE print_rest
+   20          | STRING print_rest
+   21          | VARIABLE
+   22          | STRING
+   23          | %empty
+
+   24 print_rest: DELIMITER printable
+
+   25 input_instruct: INPUT input_rest
+
+   26 input_rest: VARIABLE
+   27           | input_rest VARIABLE
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+BEGINNING (258) 2
+BODY (259) 3
+END (260) 4
+PRINT (261) 18
+INPUT (262) 25
+ADD (263) 16 17
+MOVE (264) 14 15
+TO (265) 14 15 16 17
+TERMINATOR (266) 2 3 4 5 8
+DELIMITER (267) 24
+DECSIZE (268) 7
+VARIABLE (269) 7 14 15 16 17 19 21 26 27
+STRING (270) 20 22
+NUM (271) 14 16
+
+
+Nonterminals, with rules where they appear
+
+$accept (17)
+    on left: 0
+program (18)
+    on left: 1, on right: 0
+start (19)
+    on left: 2, on right: 1
+main (20)
+    on left: 3, on right: 1
+ending (21)
+    on left: 4, on right: 1
+declarations (22)
+    on left: 5 6, on right: 2 5
+declaration (23)
+    on left: 7, on right: 5
+instructions (24)
+    on left: 8 9, on right: 3 8
+instruction (25)
+    on left: 10 11 12 13, on right: 8
+move_instruct (26)
+    on left: 14 15, on right: 10
+add_instruct (27)
+    on left: 16 17, on right: 11
+print_instruct (28)
+    on left: 18, on right: 12
+printable (29)
+    on left: 19 20 21 22 23, on right: 18 24
+print_rest (30)
+    on left: 24, on right: 19 20
+input_instruct (31)
+    on left: 25, on right: 13
+input_rest (32)
+    on left: 26 27, on right: 25 27
+
+
+State 0
+
+    0 $accept: . program $end
+
+    BEGINNING  shift, and go to state 1
+
+    program  go to state 2
+    start    go to state 3
+
+
+State 1
+
+    2 start: BEGINNING . TERMINATOR declarations
+
+    TERMINATOR  shift, and go to state 4
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 5
+
+
+State 3
+
+    1 program: start . main ending
+
+    BODY  shift, and go to state 6
+
+    main  go to state 7
+
+
+State 4
+
+    2 start: BEGINNING TERMINATOR . declarations
+
+    $default  reduce using rule 6 (declarations)
+
+    declarations  go to state 8
+
+
+State 5
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 6
+
+    3 main: BODY . TERMINATOR instructions
+
+    TERMINATOR  shift, and go to state 9
+
+
+State 7
+
+    1 program: start main . ending
+
+    END  shift, and go to state 10
+
+    ending  go to state 11
+
+
+State 8
+
+    2 start: BEGINNING TERMINATOR declarations .
+    5 declarations: declarations . declaration TERMINATOR
+
+    DECSIZE  shift, and go to state 12
+
+    $default  reduce using rule 2 (start)
+
+    declaration  go to state 13
+
+
+State 9
+
+    3 main: BODY TERMINATOR . instructions
+
+    $default  reduce using rule 9 (instructions)
+
+    instructions  go to state 14
+
+
+State 10
+
+    4 ending: END . TERMINATOR
+
+    TERMINATOR  shift, and go to state 15
+
+
+State 11
+
+    1 program: start main ending .
+
+    $default  reduce using rule 1 (program)
+
+
+State 12
+
+    7 declaration: DECSIZE . VARIABLE
+
+    VARIABLE  shift, and go to state 16
+
+
+State 13
+
+    5 declarations: declarations declaration . TERMINATOR
+
+    TERMINATOR  shift, and go to state 17
+
+
+State 14
+
+    3 main: BODY TERMINATOR instructions .
+    8 instructions: instructions . instruction TERMINATOR
+
+    PRINT  shift, and go to state 18
+    INPUT  shift, and go to state 19
+    ADD    shift, and go to state 20
+    MOVE   shift, and go to state 21
+
+    $default  reduce using rule 3 (main)
+
+    instruction     go to state 22
+    move_instruct   go to state 23
+    add_instruct    go to state 24
+    print_instruct  go to state 25
+    input_instruct  go to state 26
+
+
+State 15
+
+    4 ending: END TERMINATOR .
+
+    $default  reduce using rule 4 (ending)
+
+
+State 16
+
+    7 declaration: DECSIZE VARIABLE .
+
+    $default  reduce using rule 7 (declaration)
+
+
+State 17
+
+    5 declarations: declarations declaration TERMINATOR .
+
+    $default  reduce using rule 5 (declarations)
+
+
+State 18
+
+   18 print_instruct: PRINT . printable
+
+    VARIABLE  shift, and go to state 27
+    STRING    shift, and go to state 28
+
+    $default  reduce using rule 23 (printable)
+
+    printable  go to state 29
+
+
+State 19
+
+   25 input_instruct: INPUT . input_rest
+
+    VARIABLE  shift, and go to state 30
+
+    input_rest  go to state 31
+
+
+State 20
+
+   16 add_instruct: ADD . NUM TO VARIABLE
+   17             | ADD . VARIABLE TO VARIABLE
+
+    VARIABLE  shift, and go to state 32
+    NUM       shift, and go to state 33
+
+
+State 21
+
+   14 move_instruct: MOVE . NUM TO VARIABLE
+   15              | MOVE . VARIABLE TO VARIABLE
+
+    VARIABLE  shift, and go to state 34
+    NUM       shift, and go to state 35
+
+
+State 22
+
+    8 instructions: instructions instruction . TERMINATOR
+
+    TERMINATOR  shift, and go to state 36
+
+
+State 23
+
+   10 instruction: move_instruct .
+
+    $default  reduce using rule 10 (instruction)
+
+
+State 24
+
+   11 instruction: add_instruct .
+
+    $default  reduce using rule 11 (instruction)
+
+
+State 25
+
+   12 instruction: print_instruct .
+
+    $default  reduce using rule 12 (instruction)
+
+
+State 26
+
+   13 instruction: input_instruct .
+
+    $default  reduce using rule 13 (instruction)
+
+
+State 27
+
+   19 printable: VARIABLE . print_rest
+   21          | VARIABLE .
+
+    DELIMITER  shift, and go to state 37
+
+    $default  reduce using rule 21 (printable)
+
+    print_rest  go to state 38
+
+
+State 28
+
+   20 printable: STRING . print_rest
+   22          | STRING .
+
+    DELIMITER  shift, and go to state 37
+
+    $default  reduce using rule 22 (printable)
+
+    print_rest  go to state 39
+
+
+State 29
+
+   18 print_instruct: PRINT printable .
+
+    $default  reduce using rule 18 (print_instruct)
+
+
+State 30
+
+   26 input_rest: VARIABLE .
+
+    $default  reduce using rule 26 (input_rest)
+
+
+State 31
+
+   25 input_instruct: INPUT input_rest .
+   27 input_rest: input_rest . VARIABLE
+
+    VARIABLE  shift, and go to state 40
+
+    $default  reduce using rule 25 (input_instruct)
+
+
+State 32
+
+   17 add_instruct: ADD VARIABLE . TO VARIABLE
+
+    TO  shift, and go to state 41
+
+
+State 33
+
+   16 add_instruct: ADD NUM . TO VARIABLE
+
+    TO  shift, and go to state 42
+
+
+State 34
+
+   15 move_instruct: MOVE VARIABLE . TO VARIABLE
+
+    TO  shift, and go to state 43
+
+
+State 35
+
+   14 move_instruct: MOVE NUM . TO VARIABLE
+
+    TO  shift, and go to state 44
+
+
+State 36
+
+    8 instructions: instructions instruction TERMINATOR .
+
+    $default  reduce using rule 8 (instructions)
+
+
+State 37
+
+   24 print_rest: DELIMITER . printable
+
+    VARIABLE  shift, and go to state 27
+    STRING    shift, and go to state 28
+
+    $default  reduce using rule 23 (printable)
+
+    printable  go to state 45
+
+
+State 38
+
+   19 printable: VARIABLE print_rest .
+
+    $default  reduce using rule 19 (printable)
+
+
+State 39
+
+   20 printable: STRING print_rest .
+
+    $default  reduce using rule 20 (printable)
+
+
+State 40
+
+   27 input_rest: input_rest VARIABLE .
+
+    $default  reduce using rule 27 (input_rest)
+
+
+State 41
+
+   17 add_instruct: ADD VARIABLE TO . VARIABLE
+
+    VARIABLE  shift, and go to state 46
+
+
+State 42
+
+   16 add_instruct: ADD NUM TO . VARIABLE
+
+    VARIABLE  shift, and go to state 47
+
+
+State 43
+
+   15 move_instruct: MOVE VARIABLE TO . VARIABLE
+
+    VARIABLE  shift, and go to state 48
+
+
+State 44
+
+   14 move_instruct: MOVE NUM TO . VARIABLE
+
+    VARIABLE  shift, and go to state 49
+
+
+State 45
+
+   24 print_rest: DELIMITER printable .
+
+    $default  reduce using rule 24 (print_rest)
+
+
+State 46
+
+   17 add_instruct: ADD VARIABLE TO VARIABLE .
+
+    $default  reduce using rule 17 (add_instruct)
+
+
+State 47
+
+   16 add_instruct: ADD NUM TO VARIABLE .
+
+    $default  reduce using rule 16 (add_instruct)
+
+
+State 48
+
+   15 move_instruct: MOVE VARIABLE TO VARIABLE .
+
+    $default  reduce using rule 15 (move_instruct)
+
+
+State 49
+
+   14 move_instruct: MOVE NUM TO VARIABLE .
+
+    $default  reduce using rule 14 (move_instruct)

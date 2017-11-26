@@ -1,0 +1,9 @@
+BEGINNING.
+XXXX Z.
+
+BODY.
+
+MOVE 12 TO Z.
+PRINT Z.
+
+END.

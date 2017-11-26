@@ -1,7 +1,7 @@
 %{
+	#include <iostream>
 	#include <stdlib.h>
-	#include "yac.tab.h"
-	#include "keywords.h"
+	#include "y.tab.h"
 	#include <stdio.h>
 %}
 %option nounput
@@ -9,62 +9,74 @@
 %option caseless
 
 %%
-\. {
-	return TERMINATOR;
-}
 BEGINNING {
+	printf("BEGINNING ");
 	return BEGINNING;
 }
 BODY {
+	printf("BODY ");
 	return BODY;
 }
 END {
+	printf("END ");
 	return END;
 }
+
 ADD {
+	printf("ADD ");
 	return ADD;
 }
 MOVE {
+	printf("MOVE ");
 	return MOVE;
 }
 INPUT {
+	printf("INPUT ");
 	return INPUT;
 }
 PRINT {
+	printf("PRINT ");
 	return PRINT;
 }
 TO {
+	printf("TO ");
 	return TO;
 }
+
+\. {
+	printf("TERMINATOR ");
+	return TERMINATOR;
+}
 \; {
+	printf("DELIMITER ");
 	return DELIMITER;
 }
-[ \t\n] {
 
-}
+[\t| ]+ //ignore
 
-. {
-	  printf("Unexpected Character\n");
-}
+\n //ignore Remember you removed the . for the catch-all
 
-[Xx]+ {
+
+
+[X]+ {
 	yylval.inum = yyleng;
 	return DECSIZE;
 }
 
 [A-Z][A-Z0-9\-]* {
 	yylval.str = strdup(yytext);
+	printf("%s ", yytext);
 	return VARIABLE;
 }
 
-\"[a-zA-Z0-9]*\" {
+[\"][^"]*[\"] {
 	yylval.str = strdup(yytext);
 	return STRING;
 }
 
 [0-9]+ {
-	yylval.num = atoi(strdup(yytext));
-	return DIGIT;
+	yylval.inum = atoi(yytext);
+	return NUM;
 }
 
 

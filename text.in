@@ -7,8 +7,13 @@ BODY.
 PRINT "Please enter a number? ".
 INPUT Y.
 
-MOVE 15 TO Z.
-ADD Y TO Z.
-PRINT XY-1;" + ";Y;
 
-END;
+MOVE 12 TO XY-1.
+MOVE 15 TO Z.
+PRINT Z.
+ADD Y TO Z.
+PRINT Z.
+
+PRINT Z;" + ";Y.
+
+END.
