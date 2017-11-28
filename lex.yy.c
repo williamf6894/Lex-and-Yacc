@@ -394,8 +394,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 17
-#define YY_END_OF_BUFFER 18
+#define YY_NUM_RULES 18
+#define YY_END_OF_BUFFER 19
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -405,7 +405,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[54] =
     {   0,
-        0,    0,   18,   17,   11,   12,   17,    9,   16,   10,
+        0,    0,   19,   17,   11,   12,   17,    9,   16,   10,
        14,   14,   14,   14,   14,   14,   14,   14,   13,   11,
         0,   15,   16,   14,   14,   14,   14,   14,   14,   14,
        14,    8,   13,    4,   14,   14,    3,   14,   14,   14,
@@ -514,9 +514,9 @@ static yyconst flex_int16_t yy_chk[148] =
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static yyconst flex_int32_t yy_rule_can_match_eol[18] =
+static yyconst flex_int32_t yy_rule_can_match_eol[19] =
     {   0,
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0,     };
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -827,7 +827,7 @@ case 1:
 YY_RULE_SETUP
 #line 12 "Translator.l"
 {
-	printf("BEGINNING ");
+	/*printf("BEGINNING ");*/
 	return BEGINNING;
 }
 	YY_BREAK
@@ -835,7 +835,7 @@ case 2:
 YY_RULE_SETUP
 #line 16 "Translator.l"
 {
-	printf("BODY ");
+	/*printf("BODY ");*/
 	return BODY;
 }
 	YY_BREAK
@@ -843,7 +843,7 @@ case 3:
 YY_RULE_SETUP
 #line 20 "Translator.l"
 {
-	printf("END ");
+	/*printf("END ");*/
 	return END;
 }
 	YY_BREAK
@@ -851,7 +851,7 @@ case 4:
 YY_RULE_SETUP
 #line 25 "Translator.l"
 {
-	printf("ADD ");
+	/*printf("ADD ");*/
 	return ADD;
 }
 	YY_BREAK
@@ -859,7 +859,7 @@ case 5:
 YY_RULE_SETUP
 #line 29 "Translator.l"
 {
-	printf("MOVE ");
+	/*printf("MOVE ");*/
 	return MOVE;
 }
 	YY_BREAK
@@ -867,7 +867,7 @@ case 6:
 YY_RULE_SETUP
 #line 33 "Translator.l"
 {
-	printf("INPUT ");
+	/*printf("INPUT ");*/
 	return INPUT;
 }
 	YY_BREAK
@@ -875,7 +875,7 @@ case 7:
 YY_RULE_SETUP
 #line 37 "Translator.l"
 {
-	printf("PRINT ");
+	/*printf("PRINT ");*/
 	return PRINT;
 }
 	YY_BREAK
@@ -883,7 +883,7 @@ case 8:
 YY_RULE_SETUP
 #line 41 "Translator.l"
 {
-	printf("TO ");
+	/*printf("TO ");*/
 	return TO;
 }
 	YY_BREAK
@@ -891,7 +891,7 @@ case 9:
 YY_RULE_SETUP
 #line 46 "Translator.l"
 {
-	printf("TERMINATOR ");
+	/*printf("TERMINATOR ");*/
 	return TERMINATOR;
 }
 	YY_BREAK
@@ -899,7 +899,7 @@ case 10:
 YY_RULE_SETUP
 #line 50 "Translator.l"
 {
-	printf("DELIMITER ");
+	/*printf("DELIMITER ");*/
 	return DELIMITER;
 }
 	YY_BREAK
@@ -927,7 +927,7 @@ YY_RULE_SETUP
 #line 66 "Translator.l"
 {
 	yylval.str = strdup(yytext);
-	printf("%s ", yytext);
+	/*printf("%s ", yytext);*/
 	return VARIABLE;
 }
 	YY_BREAK
@@ -950,10 +950,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 83 "Translator.l"
+#line 82 "Translator.l"
+{
+	printf("Invalid Token\n\n");
+	exit(0);
+}
+	YY_BREAK
+case 18:
+YY_RULE_SETUP
+#line 87 "Translator.l"
 ECHO;
 	YY_BREAK
-#line 957 "lex.yy.c"
+#line 965 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1925,7 +1933,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 83 "Translator.l"
+#line 87 "Translator.l"
 
 
 /*int yywrap(void){

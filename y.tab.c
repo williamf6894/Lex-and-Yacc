@@ -69,9 +69,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
-#include <map>
+#include <math.h>
 int yylex();
-int yyerror(char* s);
+int yyerror(const char* s);
 
 using namespace std;
 
@@ -430,16 +430,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   37
+#define YYLAST   36
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  17
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  16
+#define YYNNTS  17
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  28
+#define YYNRULES  29
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  50
+#define YYNSTATES  51
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -487,9 +487,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    63,    63,    67,    71,    74,    78,    78,    83,    87,
-      87,    91,    92,    93,    94,    98,    99,   103,   104,   108,
-     112,   113,   114,   115,   115,   119,   123,   127,   128
+       0,    53,    53,    57,    61,    64,    68,    68,    73,    77,
+      77,    81,    82,    83,    84,    88,    89,    93,    94,    98,
+      98,   102,   103,   104,   105,   105,   109,   113,   117,   118
 };
 #endif
 
@@ -502,7 +502,7 @@ static const char *const yytname[] =
   "INPUT", "ADD", "MOVE", "TO", "TERMINATOR", "DELIMITER", "DECSIZE",
   "VARIABLE", "STRING", "NUM", "$accept", "program", "start", "main",
   "ending", "declarations", "declaration", "instructions", "instruction",
-  "move_instruct", "add_instruct", "print_instruct", "printable",
+  "move_instruct", "add_instruct", "print_instruct", "$@1", "printable",
   "print_rest", "input_instruct", "input_rest", YY_NULLPTR
 };
 #endif
@@ -517,10 +517,10 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -17
+#define YYPACT_NINF -23
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-17)))
+  (!!((Yystate) == (-23)))
 
 #define YYTABLE_NINF -1
 
@@ -531,11 +531,12 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       5,     0,    12,     9,   -17,   -17,     3,    10,     4,   -17,
-       7,   -17,     2,     8,    -6,   -17,   -17,   -17,    -5,     6,
-     -10,    -9,    11,   -17,   -17,   -17,   -17,    13,    13,   -17,
-     -17,    14,    16,    17,    19,    20,   -17,    -5,   -17,   -17,
-     -17,    18,    21,    22,    23,   -17,   -17,   -17,   -17,   -17
+       5,     0,    12,     9,   -23,   -23,     3,    10,     4,   -23,
+       7,   -23,     2,     8,    -6,   -23,   -23,   -23,   -23,     6,
+     -10,    -9,    11,   -23,   -23,   -23,   -23,    -5,   -23,    13,
+      14,    15,    16,    18,   -23,    17,    17,   -23,   -23,    19,
+      20,    21,    22,    -5,   -23,   -23,   -23,   -23,   -23,   -23,
+     -23
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -544,24 +545,25 @@ static const yytype_int8 yypact[] =
 static const yytype_uint8 yydefact[] =
 {
        0,     0,     0,     0,     7,     1,     0,     0,     3,    10,
-       0,     2,     0,     0,     4,     5,     8,     6,    24,     0,
-       0,     0,     0,    11,    12,    13,    14,    22,    23,    19,
-      27,    26,     0,     0,     0,     0,     9,    24,    20,    21,
-      28,     0,     0,     0,     0,    25,    18,    17,    16,    15
+       0,     2,     0,     0,     4,     5,     8,     6,    19,     0,
+       0,     0,     0,    11,    12,    13,    14,    25,    28,    27,
+       0,     0,     0,     0,     9,    23,    24,    20,    29,     0,
+       0,     0,     0,    25,    21,    22,    18,    17,    16,    15,
+      26
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,   -17,
-     -17,   -17,   -16,    -4,   -17,   -17
+     -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,   -23,
+     -23,   -23,   -23,   -22,   -13,   -23,   -23
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
       -1,     2,     3,     7,    11,     8,    13,    14,    22,    23,
-      24,    25,    29,    38,    26,    31
+      24,    25,    27,    37,    44,    26,    29
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -569,18 +571,18 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      18,    19,    20,    21,    32,    34,    33,    35,     1,    27,
-      28,     4,     5,     6,     9,    10,    16,    12,    15,    17,
-      30,    45,    36,     0,    39,    37,    41,    42,    40,    43,
-      44,     0,    46,     0,     0,    47,    48,    49
+      18,    19,    20,    21,    30,    32,    31,    33,     1,    35,
+      36,     4,     5,     6,     9,    10,    16,    12,    15,    17,
+      28,    50,    34,    45,    39,    40,    41,    38,    42,    43,
+       0,     0,     0,    46,    47,    48,    49
 };
 
 static const yytype_int8 yycheck[] =
 {
        6,     7,     8,     9,    14,    14,    16,    16,     3,    14,
       15,    11,     0,     4,    11,     5,    14,    13,    11,    11,
-      14,    37,    11,    -1,    28,    12,    10,    10,    14,    10,
-      10,    -1,    14,    -1,    -1,    14,    14,    14
+      14,    43,    11,    36,    10,    10,    10,    14,    10,    12,
+      -1,    -1,    -1,    14,    14,    14,    14
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -589,25 +591,26 @@ static const yytype_uint8 yystos[] =
 {
        0,     3,    18,    19,    11,     0,     4,    20,    22,    11,
        5,    21,    13,    23,    24,    11,    14,    11,     6,     7,
-       8,     9,    25,    26,    27,    28,    31,    14,    15,    29,
-      14,    32,    14,    16,    14,    16,    11,    12,    30,    30,
-      14,    10,    10,    10,    10,    29,    14,    14,    14,    14
+       8,     9,    25,    26,    27,    28,    32,    29,    14,    33,
+      14,    16,    14,    16,    11,    14,    15,    30,    14,    10,
+      10,    10,    10,    12,    31,    31,    14,    14,    14,    14,
+      30
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
        0,    17,    18,    19,    20,    21,    22,    22,    23,    24,
-      24,    25,    25,    25,    25,    26,    26,    27,    27,    28,
-      29,    29,    29,    29,    29,    30,    31,    32,    32
+      24,    25,    25,    25,    25,    26,    26,    27,    27,    29,
+      28,    30,    30,    30,    30,    30,    31,    32,    33,    33
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     3,     3,     3,     2,     3,     0,     2,     3,
-       0,     1,     1,     1,     1,     4,     4,     4,     4,     2,
-       2,     2,     1,     1,     0,     2,     2,     1,     2
+       0,     1,     1,     1,     1,     4,     4,     4,     4,     0,
+       3,     2,     2,     1,     1,     0,     2,     2,     1,     2
 };
 
 
@@ -1284,85 +1287,85 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 63 "Translator.y" /* yacc.c:1646  */
-    { printf("Well played!\n "); }
-#line 1290 "y.tab.c" /* yacc.c:1646  */
+#line 53 "Translator.y" /* yacc.c:1646  */
+    { printf("\nCompilation Complete!\n"); exit(0); }
+#line 1293 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 83 "Translator.y" /* yacc.c:1646  */
+#line 73 "Translator.y" /* yacc.c:1646  */
     { createNewVar((yyvsp[0].str), (yyvsp[-1].inum)); }
-#line 1296 "y.tab.c" /* yacc.c:1646  */
+#line 1299 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 98 "Translator.y" /* yacc.c:1646  */
+#line 88 "Translator.y" /* yacc.c:1646  */
     { moveNumToVar((yyvsp[-2].inum), (yyvsp[0].str)); }
-#line 1302 "y.tab.c" /* yacc.c:1646  */
+#line 1305 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 99 "Translator.y" /* yacc.c:1646  */
+#line 89 "Translator.y" /* yacc.c:1646  */
     { moveVarToVar((yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1308 "y.tab.c" /* yacc.c:1646  */
+#line 1311 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 103 "Translator.y" /* yacc.c:1646  */
+#line 93 "Translator.y" /* yacc.c:1646  */
     { addNumToVar((yyvsp[-2].inum), (yyvsp[0].str)); }
-#line 1314 "y.tab.c" /* yacc.c:1646  */
+#line 1317 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 104 "Translator.y" /* yacc.c:1646  */
+#line 94 "Translator.y" /* yacc.c:1646  */
     { addVarToVar((yyvsp[-2].str), (yyvsp[0].str)); }
-#line 1320 "y.tab.c" /* yacc.c:1646  */
+#line 1323 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 20:
-#line 112 "Translator.y" /* yacc.c:1646  */
-    { printVarValue((yyvsp[-1].str)); }
-#line 1326 "y.tab.c" /* yacc.c:1646  */
+  case 19:
+#line 98 "Translator.y" /* yacc.c:1646  */
+    { printf("Printed: ");}
+#line 1329 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 113 "Translator.y" /* yacc.c:1646  */
-    { printf("%s", (yyvsp[-1].str)); }
-#line 1332 "y.tab.c" /* yacc.c:1646  */
+#line 102 "Translator.y" /* yacc.c:1646  */
+    { printVarValue((yyvsp[-1].str)); }
+#line 1335 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 114 "Translator.y" /* yacc.c:1646  */
-    { printVarValue((yyvsp[0].str)); }
-#line 1338 "y.tab.c" /* yacc.c:1646  */
+#line 103 "Translator.y" /* yacc.c:1646  */
+    { printf("%s\n", (yyvsp[-1].str)); }
+#line 1341 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 115 "Translator.y" /* yacc.c:1646  */
-    { printf("%s", (yyvsp[0].str)); }
-#line 1344 "y.tab.c" /* yacc.c:1646  */
+#line 104 "Translator.y" /* yacc.c:1646  */
+    { printVarValue((yyvsp[0].str)); }
+#line 1347 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 25:
-#line 119 "Translator.y" /* yacc.c:1646  */
-    { printf("");}
-#line 1350 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 27:
-#line 127 "Translator.y" /* yacc.c:1646  */
-    { inputValueToVar((yyvsp[0].str)); }
-#line 1356 "y.tab.c" /* yacc.c:1646  */
+  case 24:
+#line 105 "Translator.y" /* yacc.c:1646  */
+    { printf("%s\n", (yyvsp[0].str)); }
+#line 1353 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 128 "Translator.y" /* yacc.c:1646  */
+#line 117 "Translator.y" /* yacc.c:1646  */
     { inputValueToVar((yyvsp[0].str)); }
-#line 1362 "y.tab.c" /* yacc.c:1646  */
+#line 1359 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 29:
+#line 118 "Translator.y" /* yacc.c:1646  */
+    { inputValueToVar((yyvsp[0].str)); }
+#line 1365 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1366 "y.tab.c" /* yacc.c:1646  */
+#line 1369 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1590,7 +1593,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 133 "Translator.y" /* yacc.c:1906  */
+#line 123 "Translator.y" /* yacc.c:1906  */
 
 
 extern FILE *yyin;
@@ -1602,17 +1605,15 @@ vector<Variable> variableList;
 int main(int argc, char **argv)
 {
 
-	// Set up a Map with all the Vars and the Values
-	std::map<std::string, int> varsAndValues;
 	FILE *readFile = fopen(argv[1], "r");
 
-	// safety check
 	if(!readFile){
-		cout << "Error reading file: Missing or No Parameter" << endl;
+		yyerror("Error reading file: Missing or No Parameter");
 		return 2;
 	}
 
 	yyin = readFile;
+
 	do {
 		yyparse();
 	} while(!feof(yyin));
@@ -1620,9 +1621,9 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-int yyerror(char *s)
-{
-	std::cout << "Error: " << s << std::endl;
+int yyerror(const char* s) {
+
+	printf("%s\n", s);
 	exit(0);
 }
 
@@ -1640,13 +1641,20 @@ void createNewVar(char* varName, int varSize){
 		struct Variable newVar;
 		newVar.varName = varName;
 		newVar.varSize = varSize;
-		newVar.varValue  = 0;
+		newVar.varValue = 0; // Initialize to Zero.
 
 		printf("Variable %s of size %d with value %d\n", newVar.varName, newVar.varSize, newVar.varValue);
 
 		variableList.push_back(newVar);
+	} else {
+		yyerror("Error: Variable already been declared.\n");
 	}
 }
+
+int numberLength(int num) {
+	return num == 0 ? 1 : (int) log10 ((double) num) + 1;
+}
+
 
 void printVarValue(char* varName) {
 	if (!checkDeclaration(varName)) {
@@ -1654,108 +1662,141 @@ void printVarValue(char* varName) {
 	}
 	int index = getVarIndex(varName);
 	int varValue = variableList.at(index).varValue;
-	printf("\nPrinting %s's value of %d\n", varName, varValue);
+	printf("%d\n", varValue);
 }
 
 void addVarToVar(char* var1, char* var2){
 	if(!checkDeclaration(var1)) {
-		printf("Error with variable %s", var1);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", var1);
+		yyerror("Critical!");
 	}
-	if(!checkDeclaration(var2)) {
-		printf("Error with variable %s", var1);
-		exit(-1);
+	else if(!checkDeclaration(var2)) {
+		printf("Error: variable %s is not declared\n", var2);
+		yyerror("Critical!");
 	}
+	else {
 
-	int newValue;
+		int newValue;
 
-	int varIndex1 = getVarIndex(var1);
-	int varSize1 = variableList[varIndex1].varSize;
-	int varValue1 = variableList[varIndex1].varValue;
+		int varIndex1 = getVarIndex(var1);
+		int varSize1 = variableList.at(varIndex1).varSize;
+		int varValue1 = variableList.at(varIndex1).varValue;
 
-	int varIndex2 = getVarIndex(var2);
-	int varSize2 = variableList[varIndex2].varSize;
-	int varValue2 = variableList[varIndex2].varValue;
+		int varIndex2 = getVarIndex(var2);
+		int varSize2 = variableList.at(varIndex2).varSize;
+		int varValue2 = variableList.at(varIndex2).varValue;
 
-	if(varSize1 <= varSize2) {
-		newValue = varValue1 + varValue2;
-		variableList[varIndex2].varValue = newValue;
+		if(varSize1 <= varSize2) {
+
+			newValue = varValue1 + varValue2;
+
+			if(getNumberSize(newValue) <= varSize2) {
+				variableList.at(varIndex2).varValue = newValue;
+				printf("%d has been added to %s\n", newValue, var2);
+			}
+			else {
+				printf("%s is too small for %d\n", var2, newValue);
+			}
+
+		}
+		else {
+			printf("%s is too small for %s\n", var2, var1);
+		}
 	}
-	else{
-		printf("%s is too small for %s\n", var2, var1);
-		exit(-1);
-	}
-
 }
 
 void addNumToVar(int number, char* varName){
 
 	if(!checkDeclaration(varName)) {
-		printf("Error with variable %s", varName);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", varName);
+		yyerror("Critical!");
 	}
 
 	int newValue;
 
 	int varIndex = getVarIndex(varName);
-	int varValue = variableList[varIndex].varValue;
+	int varValue = variableList.at(varIndex).varValue;
+	int varSize = variableList.at(varIndex).varSize;
 
 	newValue = varValue + number;
-	variableList[varIndex].varValue = newValue;
+
+	if (getNumberSize(newValue) <= varSize) {
+		variableList.at(varIndex).varValue = newValue;
+		printf("%d has been added to %s\n", number, varName);
+	}
+	else {
+		printf("%d is too small for %s\n", number, varName);
+	}
 }
 
 void moveVarToVar(char* var1, char* var2){
 	if(!checkDeclaration(var1)) {
-		printf("Error with variable %s", var1);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", var1);
+		yyerror("Critical!");
 	}
-	if(!checkDeclaration(var2)) {
-		printf("Error with variable %s", var1);
-		exit(-1);
-	}
-
-	int varIndex1 = getVarIndex(var1);
-	int varSize1 = variableList[varIndex1].varSize;
-	int varValue1 = variableList[varIndex1].varValue;
-
-	int varIndex2 = getVarIndex(var2);
-	int varSize2 = variableList[varIndex2].varSize;
-	int varValue2 = variableList[varIndex2].varValue;
-
-	if(varSize1 <= varSize2) {
-		variableList[varIndex2].varValue = varValue1;
+	else if(!checkDeclaration(var2)) {
+		printf("Error: variable %s is not declared\n", var2);
+		yyerror("Critical!");
 	}
 	else {
-		printf("%s is too small for %s\n", var2, var1);
-		exit(-1);
-	}
 
+		int varIndex1 = getVarIndex(var1);
+		int varSize1 = variableList.at(varIndex1).varSize;
+		int varValue1 = variableList.at(varIndex1).varValue;
+
+		int varIndex2 = getVarIndex(var2);
+		int varSize2 = variableList.at(varIndex2).varSize;
+		int varValue2 = variableList.at(varIndex2).varValue;
+
+		if(varSize1 <= varSize2) {
+			variableList.at(varIndex2).varValue = varValue1;
+			printf("%s has been moved to %s\n", var1, var2);
+		}
+		else {
+			printf("%s is too small for %s\n", var2, var1);
+		}
+
+	}
 }
 
-void moveNumToVar(int number, char* varName){
-	printf("Moving %d to %s\n", number, varName);
+void moveNumToVar(int num, char* varName){
 	if(!checkDeclaration(varName)) {
-		printf("Error with variable %s", varName);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", varName);
+		yyerror("Critical!");
 	}
+	else {
 
-	int varIndex = getVarIndex(varName);
+		int varIndex = getVarIndex(varName);
+		int varValue = variableList.at(varIndex).varValue;
+		int varSize = variableList.at(varIndex).varSize;
 
-	variableList[varIndex].varValue = number;
+		if (getNumberSize(num) <= varSize) {
+			printf("%d has been moved to %s\n", num, varName );
+			variableList.at(varIndex).varValue = num;
+		}
+		else {
+			printf("%d is too small for %s\n", num, varName);
+		}
+	}
 
 }
 
 void inputValueToVar(char* varName){
 	if(!checkDeclaration(varName)) {
-		printf("Variable %s is not declared", varName);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", varName);
+		yyerror("Critical!");
 	}
 	int input;
 	scanf("%d", &input);
 
 	int varIndex = getVarIndex(varName);
-	printf("Input %d to %s\n", input, varName );
-	variableList.at(varIndex).varValue = input;
+	if (getNumberSize(input) <= variableList.at(varIndex).varSize) {
+		printf("Input %d to %s\n", input, varName );
+		variableList.at(varIndex).varValue = input;
+	}
+	else {
+		yyerror("Input number too big.");
+	}
 
 }
 
@@ -1772,10 +1813,10 @@ int getNumberSize(int num) {
 bool checkDeclaration(char* varName) {
 
 	int counter = 0;
-	for(counter = 0; counter < variableList.size(); counter++) {
+	for(counter = 0; counter < variableList.size(); ++counter) {
 
 		if (strcmp(variableList.at(counter).varName, varName) == 0) {
-			// variable is declared
+			//variable is declared
 			return true;
 		}
 	}

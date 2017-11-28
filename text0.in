@@ -1,9 +1,22 @@
 BEGINNING.
 XXXX Z.
+XXXX T-Z.
+XXXX Z2.
 
 BODY.
 
 MOVE 12 TO Z.
+ADD 12 TO Z.
 PRINT Z.
+
+PRINT %%qerq .
+INPUT T-Z.
+MOVE 12 TO Z.
+ADD 12 TO Z.
+PRINT Z;" + ";T-Z.
+
+MOVE T-Z to Z2.
+ADD Z to Z2.
+print Z2.
 
 END.

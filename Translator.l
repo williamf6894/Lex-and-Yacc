@@ -10,45 +10,45 @@
 
 %%
 BEGINNING {
-	printf("BEGINNING ");
+	/*printf("BEGINNING ");*/
 	return BEGINNING;
 }
 BODY {
-	printf("BODY ");
+	/*printf("BODY ");*/
 	return BODY;
 }
 END {
-	printf("END ");
+	/*printf("END ");*/
 	return END;
 }
 
 ADD {
-	printf("ADD ");
+	/*printf("ADD ");*/
 	return ADD;
 }
 MOVE {
-	printf("MOVE ");
+	/*printf("MOVE ");*/
 	return MOVE;
 }
 INPUT {
-	printf("INPUT ");
+	/*printf("INPUT ");*/
 	return INPUT;
 }
 PRINT {
-	printf("PRINT ");
+	/*printf("PRINT ");*/
 	return PRINT;
 }
 TO {
-	printf("TO ");
+	/*printf("TO ");*/
 	return TO;
 }
 
 \. {
-	printf("TERMINATOR ");
+	/*printf("TERMINATOR ");*/
 	return TERMINATOR;
 }
 \; {
-	printf("DELIMITER ");
+	/*printf("DELIMITER ");*/
 	return DELIMITER;
 }
 
@@ -65,7 +65,7 @@ TO {
 
 [A-Z][A-Z0-9\-]* {
 	yylval.str = strdup(yytext);
-	printf("%s ", yytext);
+	/*printf("%s ", yytext);*/
 	return VARIABLE;
 }
 
@@ -79,6 +79,10 @@ TO {
 	return NUM;
 }
 
+. {
+	printf("Invalid Token\n\n");
+	exit(0);
+}
 
 %%
 /*int yywrap(void){

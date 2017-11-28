@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
-#include <map>
+#include <math.h>
 int yylex();
-int yyerror(char* s);
+int yyerror(const char* s);
 
 using namespace std;
 
@@ -35,20 +35,10 @@ void printVarValue(char* varName);
 	char* str;
 }
 
-%token BEGINNING
-%token BODY
-%token END
-%token PRINT
-%token INPUT
-%token ADD
-%token MOVE
-%token TO
-%token TERMINATOR
-%token DELIMITER
-%token DECSIZE
-%token VARIABLE
-%token STRING
-%token NUM
+%token BEGINNING BODY END
+%token PRINT INPUT ADD MOVE TO
+%token TERMINATOR DELIMITER
+%token DECSIZE VARIABLE STRING NUM
 %type <inum> NUM
 %type <inum> DECSIZE
 %type <str> TERMINATOR
@@ -60,7 +50,7 @@ void printVarValue(char* varName);
 %%
 
 program:
-	start main ending { printf("Well played!\n "); }
+	start main ending { printf("\nCompilation Complete!\n"); exit(0); }
 ;
 
 start:
@@ -105,18 +95,18 @@ add_instruct:
 ;
 
 print_instruct:
-	PRINT printable
+	PRINT { printf("Printed: ");} printable 
 ;
 
 printable :
 	VARIABLE print_rest { printVarValue($1); } |
-	STRING print_rest { printf("%s", $1); } |
+	STRING print_rest { printf("%s\n", $1); } |
 	VARIABLE { printVarValue($1); } |
-	STRING { printf("%s", $1); } |
+	STRING { printf("%s\n", $1); } |
 ;
 
 print_rest :
-	DELIMITER printable { printf("");}
+	DELIMITER printable
 ;
 
 input_instruct:
@@ -141,17 +131,15 @@ vector<Variable> variableList;
 int main(int argc, char **argv)
 {
 
-	// Set up a Map with all the Vars and the Values
-	std::map<std::string, int> varsAndValues;
 	FILE *readFile = fopen(argv[1], "r");
 
-	// safety check
 	if(!readFile){
-		cout << "Error reading file: Missing or No Parameter" << endl;
+		yyerror("Error reading file: Missing or No Parameter");
 		return 2;
 	}
 
 	yyin = readFile;
+
 	do {
 		yyparse();
 	} while(!feof(yyin));
@@ -159,9 +147,9 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-int yyerror(char *s)
-{
-	std::cout << "Error: " << s << std::endl;
+int yyerror(const char* s) {
+
+	printf("%s\n", s);
 	exit(0);
 }
 
@@ -179,13 +167,20 @@ void createNewVar(char* varName, int varSize){
 		struct Variable newVar;
 		newVar.varName = varName;
 		newVar.varSize = varSize;
-		newVar.varValue  = 0;
+		newVar.varValue = 0; // Initialize to Zero.
 
 		printf("Variable %s of size %d with value %d\n", newVar.varName, newVar.varSize, newVar.varValue);
 
 		variableList.push_back(newVar);
+	} else {
+		yyerror("Error: Variable already been declared.\n");
 	}
 }
+
+int numberLength(int num) {
+	return num == 0 ? 1 : (int) log10 ((double) num) + 1;
+}
+
 
 void printVarValue(char* varName) {
 	if (!checkDeclaration(varName)) {
@@ -193,108 +188,141 @@ void printVarValue(char* varName) {
 	}
 	int index = getVarIndex(varName);
 	int varValue = variableList.at(index).varValue;
-	printf("\nPrinting %s's value of %d\n", varName, varValue);
+	printf("%d\n", varValue);
 }
 
 void addVarToVar(char* var1, char* var2){
 	if(!checkDeclaration(var1)) {
-		printf("Error with variable %s", var1);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", var1);
+		yyerror("Critical!");
 	}
-	if(!checkDeclaration(var2)) {
-		printf("Error with variable %s", var1);
-		exit(-1);
+	else if(!checkDeclaration(var2)) {
+		printf("Error: variable %s is not declared\n", var2);
+		yyerror("Critical!");
 	}
+	else {
 
-	int newValue;
+		int newValue;
 
-	int varIndex1 = getVarIndex(var1);
-	int varSize1 = variableList[varIndex1].varSize;
-	int varValue1 = variableList[varIndex1].varValue;
+		int varIndex1 = getVarIndex(var1);
+		int varSize1 = variableList.at(varIndex1).varSize;
+		int varValue1 = variableList.at(varIndex1).varValue;
 
-	int varIndex2 = getVarIndex(var2);
-	int varSize2 = variableList[varIndex2].varSize;
-	int varValue2 = variableList[varIndex2].varValue;
+		int varIndex2 = getVarIndex(var2);
+		int varSize2 = variableList.at(varIndex2).varSize;
+		int varValue2 = variableList.at(varIndex2).varValue;
 
-	if(varSize1 <= varSize2) {
-		newValue = varValue1 + varValue2;
-		variableList[varIndex2].varValue = newValue;
+		if(varSize1 <= varSize2) {
+
+			newValue = varValue1 + varValue2;
+
+			if(getNumberSize(newValue) <= varSize2) {
+				variableList.at(varIndex2).varValue = newValue;
+				printf("%d has been added to %s\n", newValue, var2);
+			}
+			else {
+				printf("%s is too small for %d\n", var2, newValue);
+			}
+
+		}
+		else {
+			printf("%s is too small for %s\n", var2, var1);
+		}
 	}
-	else{
-		printf("%s is too small for %s\n", var2, var1);
-		exit(-1);
-	}
-
 }
 
 void addNumToVar(int number, char* varName){
 
 	if(!checkDeclaration(varName)) {
-		printf("Error with variable %s", varName);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", varName);
+		yyerror("Critical!");
 	}
 
 	int newValue;
 
 	int varIndex = getVarIndex(varName);
-	int varValue = variableList[varIndex].varValue;
+	int varValue = variableList.at(varIndex).varValue;
+	int varSize = variableList.at(varIndex).varSize;
 
 	newValue = varValue + number;
-	variableList[varIndex].varValue = newValue;
+
+	if (getNumberSize(newValue) <= varSize) {
+		variableList.at(varIndex).varValue = newValue;
+		printf("%d has been added to %s\n", number, varName);
+	}
+	else {
+		printf("%d is too small for %s\n", number, varName);
+	}
 }
 
 void moveVarToVar(char* var1, char* var2){
 	if(!checkDeclaration(var1)) {
-		printf("Error with variable %s", var1);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", var1);
+		yyerror("Critical!");
 	}
-	if(!checkDeclaration(var2)) {
-		printf("Error with variable %s", var1);
-		exit(-1);
-	}
-
-	int varIndex1 = getVarIndex(var1);
-	int varSize1 = variableList[varIndex1].varSize;
-	int varValue1 = variableList[varIndex1].varValue;
-
-	int varIndex2 = getVarIndex(var2);
-	int varSize2 = variableList[varIndex2].varSize;
-	int varValue2 = variableList[varIndex2].varValue;
-
-	if(varSize1 <= varSize2) {
-		variableList[varIndex2].varValue = varValue1;
+	else if(!checkDeclaration(var2)) {
+		printf("Error: variable %s is not declared\n", var2);
+		yyerror("Critical!");
 	}
 	else {
-		printf("%s is too small for %s\n", var2, var1);
-		exit(-1);
-	}
 
+		int varIndex1 = getVarIndex(var1);
+		int varSize1 = variableList.at(varIndex1).varSize;
+		int varValue1 = variableList.at(varIndex1).varValue;
+
+		int varIndex2 = getVarIndex(var2);
+		int varSize2 = variableList.at(varIndex2).varSize;
+		int varValue2 = variableList.at(varIndex2).varValue;
+
+		if(varSize1 <= varSize2) {
+			variableList.at(varIndex2).varValue = varValue1;
+			printf("%s has been moved to %s\n", var1, var2);
+		}
+		else {
+			printf("%s is too small for %s\n", var2, var1);
+		}
+
+	}
 }
 
-void moveNumToVar(int number, char* varName){
-	printf("Moving %d to %s\n", number, varName);
+void moveNumToVar(int num, char* varName){
 	if(!checkDeclaration(varName)) {
-		printf("Error with variable %s", varName);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", varName);
+		yyerror("Critical!");
 	}
+	else {
 
-	int varIndex = getVarIndex(varName);
+		int varIndex = getVarIndex(varName);
+		int varValue = variableList.at(varIndex).varValue;
+		int varSize = variableList.at(varIndex).varSize;
 
-	variableList[varIndex].varValue = number;
+		if (getNumberSize(num) <= varSize) {
+			printf("%d has been moved to %s\n", num, varName );
+			variableList.at(varIndex).varValue = num;
+		}
+		else {
+			printf("%d is too small for %s\n", num, varName);
+		}
+	}
 
 }
 
 void inputValueToVar(char* varName){
 	if(!checkDeclaration(varName)) {
-		printf("Variable %s is not declared", varName);
-		exit(-1);
+		printf("Error: variable %s is not declared\n", varName);
+		yyerror("Critical!");
 	}
 	int input;
 	scanf("%d", &input);
 
 	int varIndex = getVarIndex(varName);
-	printf("Input %d to %s\n", input, varName );
-	variableList.at(varIndex).varValue = input;
+	if (getNumberSize(input) <= variableList.at(varIndex).varSize) {
+		printf("Input %d to %s\n", input, varName );
+		variableList.at(varIndex).varValue = input;
+	}
+	else {
+		yyerror("Input number too big.");
+	}
 
 }
 
@@ -311,10 +339,10 @@ int getNumberSize(int num) {
 bool checkDeclaration(char* varName) {
 
 	int counter = 0;
-	for(counter = 0; counter < variableList.size(); counter++) {
+	for(counter = 0; counter < variableList.size(); ++counter) {
 
 		if (strcmp(variableList.at(counter).varName, varName) == 0) {
-			// variable is declared
+			//variable is declared
 			return true;
 		}
 	}
