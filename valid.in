@@ -1,0 +1,29 @@
+BeGiNInG.
+
+X a-Z.
+XX hDr.
+XXX f-.
+XXXX four.
+XX mvad.
+BoDY.
+MOVE 1 TO a-Z.
+MOVE 30 TO hDr.
+MOVE 500 TO f-.
+PRINT "banna";a-Z;f-;"organd!".
+ADD 4 TO hDr.
+ADD 1000 TO four.
+move 70 to mvad.
+add 50 to mvad.
+
+
+
+
+
+
+
+
+MOVE 1 TO four.
+MOVE 1 TO a-Z.
+INPUT a-Z; f-.
+ADD 1 TO a-Z.
+EnD.

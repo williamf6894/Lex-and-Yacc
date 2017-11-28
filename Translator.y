@@ -95,7 +95,7 @@ add_instruct:
 ;
 
 print_instruct:
-	PRINT { printf("Printed: ");} printable 
+	PRINT { printf("Printed: ");} printable
 ;
 
 printable :
@@ -115,7 +115,7 @@ input_instruct:
 
 input_rest:
 	VARIABLE { inputValueToVar($1); } |
-	input_rest VARIABLE { inputValueToVar($2); }
+	input_rest DELIMITER VARIABLE { inputValueToVar($3); }
 ;
 
 
@@ -221,12 +221,12 @@ void addVarToVar(char* var1, char* var2){
 				printf("%d has been added to %s\n", newValue, var2);
 			}
 			else {
-				printf("%s is too small for %d\n", var2, newValue);
+				printf("Warning: \n%s is too small for %d\n\n", var2, newValue);
 			}
 
 		}
 		else {
-			printf("%s is too small for %s\n", var2, var1);
+			printf("Warning: \n%s is too small for %s\n\n", var2, var1);
 		}
 	}
 }
@@ -251,7 +251,7 @@ void addNumToVar(int number, char* varName){
 		printf("%d has been added to %s\n", number, varName);
 	}
 	else {
-		printf("%d is too small for %s\n", number, varName);
+		printf("Warning: \n%d is too small for %s\n\n", number, varName);
 	}
 }
 
@@ -279,7 +279,7 @@ void moveVarToVar(char* var1, char* var2){
 			printf("%s has been moved to %s\n", var1, var2);
 		}
 		else {
-			printf("%s is too small for %s\n", var2, var1);
+			printf("Warning: \n%s is too small for %s\n\n", var2, var1);
 		}
 
 	}
@@ -301,7 +301,7 @@ void moveNumToVar(int num, char* varName){
 			variableList.at(varIndex).varValue = num;
 		}
 		else {
-			printf("%d is too small for %s\n", num, varName);
+			printf("Warning: \n%d is too small for %s\n\n", num, varName);
 		}
 	}
 
@@ -321,7 +321,7 @@ void inputValueToVar(char* varName){
 		variableList.at(varIndex).varValue = input;
 	}
 	else {
-		yyerror("Input number too big.");
+		yyerror("Warning: \nInput number too big.\n");
 	}
 
 }

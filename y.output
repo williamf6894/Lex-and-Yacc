@@ -44,7 +44,7 @@ Grammar
    26 input_instruct: INPUT input_rest
 
    27 input_rest: VARIABLE
-   28           | input_rest VARIABLE
+   28           | input_rest DELIMITER VARIABLE
 
 
 Terminals, with rules where they appear
@@ -60,7 +60,7 @@ ADD (263) 16 17
 MOVE (264) 14 15
 TO (265) 14 15 16 17
 TERMINATOR (266) 2 3 4 5 8
-DELIMITER (267) 25
+DELIMITER (267) 25 28
 DECSIZE (268) 7
 VARIABLE (269) 7 14 15 16 17 20 22 27 28
 STRING (270) 21 23
@@ -352,9 +352,9 @@ State 28
 State 29
 
    26 input_instruct: INPUT input_rest .
-   28 input_rest: input_rest . VARIABLE
+   28 input_rest: input_rest . DELIMITER VARIABLE
 
-    VARIABLE  shift, and go to state 38
+    DELIMITER  shift, and go to state 38
 
     $default  reduce using rule 26 (input_instruct)
 
@@ -427,37 +427,37 @@ State 37
 
 State 38
 
-   28 input_rest: input_rest VARIABLE .
+   28 input_rest: input_rest DELIMITER . VARIABLE
 
-    $default  reduce using rule 28 (input_rest)
+    VARIABLE  shift, and go to state 46
 
 
 State 39
 
    17 add_instruct: ADD VARIABLE TO . VARIABLE
 
-    VARIABLE  shift, and go to state 46
+    VARIABLE  shift, and go to state 47
 
 
 State 40
 
    16 add_instruct: ADD NUM TO . VARIABLE
 
-    VARIABLE  shift, and go to state 47
+    VARIABLE  shift, and go to state 48
 
 
 State 41
 
    15 move_instruct: MOVE VARIABLE TO . VARIABLE
 
-    VARIABLE  shift, and go to state 48
+    VARIABLE  shift, and go to state 49
 
 
 State 42
 
    14 move_instruct: MOVE NUM TO . VARIABLE
 
-    VARIABLE  shift, and go to state 49
+    VARIABLE  shift, and go to state 50
 
 
 State 43
@@ -469,7 +469,7 @@ State 43
 
     $default  reduce using rule 24 (printable)
 
-    printable  go to state 50
+    printable  go to state 51
 
 
 State 44
@@ -488,33 +488,40 @@ State 45
 
 State 46
 
+   28 input_rest: input_rest DELIMITER VARIABLE .
+
+    $default  reduce using rule 28 (input_rest)
+
+
+State 47
+
    17 add_instruct: ADD VARIABLE TO VARIABLE .
 
     $default  reduce using rule 17 (add_instruct)
 
 
-State 47
+State 48
 
    16 add_instruct: ADD NUM TO VARIABLE .
 
     $default  reduce using rule 16 (add_instruct)
 
 
-State 48
+State 49
 
    15 move_instruct: MOVE VARIABLE TO VARIABLE .
 
     $default  reduce using rule 15 (move_instruct)
 
 
-State 49
+State 50
 
    14 move_instruct: MOVE NUM TO VARIABLE .
 
     $default  reduce using rule 14 (move_instruct)
 
 
-State 50
+State 51
 
    25 print_rest: DELIMITER printable .
 

@@ -4,12 +4,16 @@
 	#include "y.tab.h"
 	#include <stdio.h>
 %}
-%option nounput
+
 %option yylineno
 %option caseless
 
 %%
 BEGINNING {
+	/*printf("BEGINNING ");*/
+	return BEGINNING;
+}
+BEGINING {
 	/*printf("BEGINNING ");*/
 	return BEGINNING;
 }
@@ -58,12 +62,12 @@ TO {
 
 
 
-[X]+ {
+[Xx]+ {
 	yylval.inum = yyleng;
 	return DECSIZE;
 }
 
-[A-Z][A-Z0-9\-]* {
+[a-zA-Z][a-zA-Z0-9\-]* {
 	yylval.str = strdup(yytext);
 	/*printf("%s ", yytext);*/
 	return VARIABLE;
